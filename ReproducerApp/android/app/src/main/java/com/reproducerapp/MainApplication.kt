@@ -77,7 +77,7 @@ class ExampleService : HeadlessJsTaskService() {
         fakeExtras.putString("foo", "bar")
         return HeadlessJsTaskConfig(
             "ExampleHeadlessTask",
-            Arguments.fromBundle(Bundle()),
+            Arguments.fromBundle(fakeExtras),
             60000, // timeout for the task - react-native-firebase uses 60000
             true // react-native-firebase uses true, using true here. Maybe test false
         )

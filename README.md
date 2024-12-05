@@ -19,7 +19,7 @@ Perform these steps to reproduce the error in [facebook/react-native#47592](http
 1. `cd ReproducerApp`
 1. `yarn`
 1. Start an Android emulator but an older one before background receivers couldn't start background services. I tested this on an API24 (Android...7?) emulator. It is not worth the pain setting up all the other stuff when the error reproduces perfectly
-1. `yarn run-android` (the app should open, and a mertro server will open)
+1. `yarn react-native run-android` (the app should open, and a mertro server will open)
 1. `adb logcat` in some separate terminal
 1. open the task switcher on the android emulator and swipe the reproducer app away
 1. In a terminal, directly send an intent that will trigger a receiver and start a HeadlessJS service: `adb shell am broadcast   -n com.reproducerapp/.ExampleReceiver   -a "com.example.intent.TestIntent"`

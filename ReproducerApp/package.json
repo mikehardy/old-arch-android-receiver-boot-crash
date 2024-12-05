@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "apply-patch": "patch -p1 < patches/react-native-pr48124.diff"
+    "postinstall": "yarn apply-patch",
+    "apply-patch": "patch -p1 --forward < patches/react-native-pr48124.diff || true"
   },
   "dependencies": {
     "react": "18.3.1",

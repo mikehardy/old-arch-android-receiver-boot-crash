@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "apply-patch": "patch -p1 < patches/react-native-pr48124.diff"
   },
   "dependencies": {
     "react": "18.3.1",

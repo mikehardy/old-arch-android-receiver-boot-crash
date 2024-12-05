@@ -1,0 +1,48 @@
+diff --git a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/HeadlessJsTaskService.java b/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/HeadlessJsTaskService.java
+index 314e68388372ac..b47a4e9f07e25f 100644
+--- a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/HeadlessJsTaskService.java
++++ b/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/HeadlessJsTaskService.java
+@@ -179,31 +179,30 @@ protected ReactContext getReactContext() {
+   }
+ 
+   private void createReactContextAndScheduleTask(final HeadlessJsTaskConfig taskConfig) {
+-    final ReactHost reactHost = getReactHost();
+-
+-    if (reactHost == null) { // old arch
+-      final ReactInstanceManager reactInstanceManager =
+-          getReactNativeHost().getReactInstanceManager();
+-
+-      reactInstanceManager.addReactInstanceEventListener(
++    if (ReactFeatureFlags.enableBridgelessArchitecture) {
++      final ReactHost reactHost = getReactHost();
++      reactHost.addReactInstanceEventListener(
+           new ReactInstanceEventListener() {
+             @Override
+             public void onReactContextInitialized(@NonNull ReactContext reactContext) {
+               invokeStartTask(reactContext, taskConfig);
+-              reactInstanceManager.removeReactInstanceEventListener(this);
++              reactHost.removeReactInstanceEventListener(this);
+             }
+           });
+-      reactInstanceManager.createReactContextInBackground();
+-    } else { // new arch
+-      reactHost.addReactInstanceEventListener(
++      reactHost.start();
++    } else {
++      final ReactInstanceManager reactInstanceManager =
++          getReactNativeHost().getReactInstanceManager();
++
++      reactInstanceManager.addReactInstanceEventListener(
+           new ReactInstanceEventListener() {
+             @Override
+             public void onReactContextInitialized(@NonNull ReactContext reactContext) {
+               invokeStartTask(reactContext, taskConfig);
+-              reactHost.removeReactInstanceEventListener(this);
++              reactInstanceManager.removeReactInstanceEventListener(this);
+             }
+           });
+-      reactHost.start();
++      reactInstanceManager.createReactContextInBackground();
+     }
+   }
+ }
